@@ -1,0 +1,48 @@
+/* The Ambient design system (vaan_db/site/public/assets/css/styles.css), the same tokens as the blog's
+   figures (systemone/blog/diagrams/_head.html): cream canvas, dark-brown ink, one orange accent. Orange is
+   the slot read, dark brown the base model writing its answer, taupe neutral structure. */
+:root {
+  --bg:#fdf6f1; --bg-2:#f8ece4; --panel:#ffffff; --panel-2:#fbf1ea;
+  --ink-panel:#1c100b; --ink-panel-2:#2a170e; --on-ink:#fbeee6; --on-ink-muted:#bfa89c;
+  --ink:#1a110d; --ink2:#6b5850; --ink3:#9a877e; --rule:rgba(58,28,12,0.11); --rule-2:rgba(58,28,12,0.06); --dot:rgba(58,28,12,0.07);
+  --shadow:0 1px 2px rgba(58,28,12,0.05), 0 12px 32px -14px rgba(58,28,12,0.18);
+  --fast:#ff5a14; --fast-2:#ff7a2e; --fast-soft:#ffe5d8;   /* ours: the slot read */
+  --slow:#3a2013; --slow-soft:#efe2d9;                     /* the baseline: writing */
+  --accent:#a3836f; --accent-soft:#f3e7df;                 /* neutral structure */
+}
+body, gradio-app, .gradio-container {
+  background:radial-gradient(var(--dot) 1.2px, transparent 1.2px) -12px -12px / 24px 24px, var(--bg) !important;
+  color:var(--ink); -webkit-font-smoothing:antialiased;
+}
+.gradio-container { max-width:1180px !important; margin:0 auto !important; }
+
+/* header, as the site's sections: orange eyebrow, tight display title, muted lede */
+.amb-head { padding:26px 4px 6px; }
+.amb-head .eyebrow { font:600 11.5px "Inter",sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--fast); margin:0 0 10px; }
+.amb-head .title { font:800 34px/1.08 "Inter Tight","Inter",sans-serif; letter-spacing:-.03em; word-spacing:.04em; margin:0 0 12px; color:var(--ink); text-wrap:balance; }
+.amb-head .title .fast { color:var(--fast); }
+.amb-head .lede { color:var(--ink2); font-size:15.5px; line-height:1.6; margin:0 0 12px; max-width:54rem; }
+.amb-head .links { font:500 12px "JetBrains Mono",monospace; letter-spacing:.06em; color:var(--ink3); margin:0; }
+.amb-head .links a { color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule); }
+.amb-head .links a:hover { color:var(--fast); border-color:var(--fast); }
+.amb-note { color:var(--ink3); font-size:12.5px; line-height:1.55; margin:6px 4px 0; }
+.amb-legend { display:flex; gap:18px; flex-wrap:wrap; font:500 12px "JetBrains Mono",monospace; color:var(--ink2); margin:2px 4px 0; }
+.amb-legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:-1px; }
+
+/* results: the read in a dark terminal panel, like the figures' .term */
+.prose pre, .prose code { font-family:"JetBrains Mono",ui-monospace,monospace !important; }
+.prose pre { background:var(--ink-panel) !important; color:var(--on-ink) !important; border-radius:12px !important;
+  border:0 !important; box-shadow:0 18px 36px -22px rgba(42,23,14,.6); }
+.prose pre code { background:transparent !important; color:var(--on-ink) !important; }
+.prose :not(pre) > code { background:var(--accent-soft) !important; color:var(--ink) !important; border-radius:6px; padding:1px 5px; }
+.prose h3 { font:700 17px "Inter Tight","Inter",sans-serif !important; letter-spacing:-.02em; }
+.prose strong { color:var(--ink); }
+.prose table { font-variant-numeric:tabular-nums; border-collapse:collapse; background:var(--panel); }
+.prose table, .prose th, .prose td { border:1px solid var(--rule) !important; }
+.prose h2 { font:800 22px "Inter Tight","Inter",sans-serif !important; letter-spacing:-.03em; }
+.prose th { color:var(--ink3); font:500 11px "JetBrains Mono",monospace !important; letter-spacing:.12em; text-transform:uppercase; }
+
+/* tabs: an orange rule under the selected one */
+button[role="tab"] { font:600 14px "Inter",sans-serif !important; color:var(--ink2) !important; }
+button[role="tab"][aria-selected="true"] { color:var(--ink) !important; border-color:var(--fast) !important; }
+button[role="tab"][aria-selected="true"]::after { background:var(--fast) !important; }

@@ -1,0 +1,19 @@
+[project]
+name = "slotread"
+version = "0.1.0"
+description = "Slot reading: computer-use grounding from one read of an LLM's next-token distributions, no decoding"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["torch", "numpy", "pillow", "scipy"]
+
+[project.optional-dependencies]
+train = ["transformers>=5.0", "peft>=0.21", "datasets", "accelerate", "wandb"]
+eval = ["datasets", "transformers>=5.0", "huggingface_hub", "safetensors", "playwright"]
+test = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["slotread", "slotread.data"]
