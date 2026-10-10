@@ -145,20 +145,6 @@ step = m.decide(Image.open("screenshot.png"), "open the settings")
 published evaluation. `space/` is the Hugging Face Space (`space/deploy.sh`).
 The browser agent: `python -m slotread.agent --model j-E3=runs/j_E3 --url https://en.wikipedia.org --task "..."`.
 
-## Reproduce the post
-
-| result | run |
-|---|---|
-| the four arms (A, F, E, B+): accuracy summary | `recipes/train_arms.sh`, then serve all four and `recipes/eval_arms.sh` |
-| latency table | `recipes/latency.sh` (serve the arms only) |
-| race videos | `recipes/race.sh` (record with each agent alone, replay on real timelines); `scripts/race.py decide` for decision-only replays |
-| GUI-Owl-2B | `recipes/train_gui_owl.sh`, `serving/serve_gui_owl.sh`, `recipes/gui_owl.sh` |
-| boxes on photos, masks with SAM 2 (E3) | `recipes/train_e3.sh` (warm-starts from E), then `recipes/eval_e3.sh` |
-| label embedding geometry | `python scripts/label_geometry.py` (CPU) |
-
-Approximate training times on one RTX PRO 6000: ~6 h per arm (24,000 examples), ~4 h for E3, ~40 min for
-GUI-Owl.
-
 ## The read path
 
 Each slot is one chat request whose assistant turn is prefilled up to that slot (`action: ___ x:`), with
@@ -179,25 +165,6 @@ Three serving changes took a step from ~240 ms to ~146 ms:
 
 One request per step (`read_one`, or SGLang's `read_sgl`) is possible but was not faster here: vLLM batches
 the parallel slot requests well, and SGLang's NVFP4 + LoRA prefill was slower (see `serving/sglang/`).
-
-## Notes
-
-- **Image transport.** Evaluation sends full-size PNG screenshots, as the post measured
-  (`EVAL_IMG_FMT`, `EVAL_IMG_MAX_PX`). Serving, the browser agent and the latency benchmarks send JPEG at the
-  model's input size (`IMG_FMT`, `IMG_MAX_PX`). Agent steps scored the same either way; ScreenSpot clicks
-  measured 0.825 with model-sized JPEG against 0.860 with PNG in one run, so check the trade-off for small
-  targets.
-- **Held-out computer-use steps.** AGUVIS pools are shuffled after collection, so pools of different sizes
-  hold different rows. Compare runs on `agent_test` (1,600 steps from rows 6,000+ of every source, past
-  every training pool), not on the first rows of a pool.
-- **Word labels without a coarse slot (arm C) never learn** (0.6% on ScreenSpot). That run used an earlier
-  click-only trainer; here it is `python -m slotread.train --arm C`, which has not been re-run.
-- **Compatibility.** `tests/test_config_compat.py` checks that this code rebuilds the post's adapters'
-  prompts, slot orders and label ids exactly (A, F, E, B+, E3 on Gemma 4 31B; E on GUI-Owl-2B). Phase-2
-  adapters described boxes as "an element", E3 onward as "an element or object"; each adapter reads with its
-  own prompt from `config.json`.
-- **Tests** run on CPU: `pip install -e ".[test,eval]" && pytest` (the compatibility and encoding tests
-  download the tokenizers and processor).
 
 ## Citation
 
